@@ -1,38 +1,72 @@
-.App {
+.meal-div {
+  margin: 2rem auto;
   text-align: center;
+  max-width: 35rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.show {
+  display: block;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.picked {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  margin: 0.45rem;
+  cursor: pointer;
+  background: greenyellow;
+  border-radius: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.picked:hover {
+  background: #333;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.action-btn {
+  margin: 1.5rem auto;
+  margin-bottom: 0rem;
+}
+.not-picked {
+  display: inline-block;
+}
+.not-picked:hover {
+  color: green;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hide {
+  display: none;
+}
+.change-calo {
+  text-align: center;
+  text-align: center;
+  background: black;
+  color: white;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+.more-options-headings {
+  cursor: pointer;
+}
+.meal-head-options {
+  color: #fff;
+  background: #333;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.meal-gen-options li {
+  display: inline-block;
+  margin: 0.6rem;
+  padding: 0.2rem;
+}
+
+label {
+  border: 2px solid green;
+  padding: 0.28rem;
+  border-radius: 10px;
+  cursor: pointer;
 }
