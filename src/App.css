@@ -1,3 +1,9 @@
+.site-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 1.5rem;
+}
+
 .meal-div {
   margin: 2rem auto;
   text-align: center;
@@ -49,9 +55,6 @@
   cursor: pointer;
 }
 
-.results-div {
-  outline: 2px solid red;
-}
 .meal-head-options {
   color: #fff;
   background: #333;
@@ -81,8 +84,82 @@ label {
 }
 
 .meal-info-div {
-  margin: 1.5rem auto;
+  margin: 1rem;
   text-align: center;
+  border: 2px solid rgb(240, 35, 35);
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 1.7rem;
+}
+
+/* Results Styles */
+
+.results-day {
+  font-size: 1.8rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.nutrients-headings {
+  font-size: 1.3rem;
+  color: #444;
+}
+
+.results-day:before {
+  content: '';
+  position: absolute;
+  height: 3px;
+  width: 10%;
+  background: green;
+  border-top-right-radius: 20px;
+  bottom: 0;
+}
+
+.nutrients-day {
+  line-height: 2rem;
+  margin: 2rem;
+}
+
+.result-div-day {
+  width: 85%;
+  margin: auto;
+}
+.meal-icon {
+  padding: 0.4rem;
+  font-size: 1.8rem;
+  border-radius: 100px;
+}
+.grad-bg {
+  background: #56ab2f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #a8e063,
+    #56ab2f
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #a8e063,
+    #56ab2f
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.fav {
+  color: white;
+  padding: 0.5rem;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.fav:hover {
+  background: white;
+  color: green;
 }
 
 .meal-img {
@@ -97,32 +174,27 @@ label {
   margin: auto;
 }
 
-.meal-fav {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  background: greenyellow;
-  padding: 0.3rem;
-  border-radius: 50%;
-}
-
-.meal-fav:hover {
-  color: pink;
-}
 .meal-title {
+  color: whitesmoke;
+  font-weight: 700;
   position: absolute;
-  background: greenyellow;
-  padding: 0.25rem;
+  padding: 0.25rem 0.45rem;
   bottom: 0rem;
   border-top-right-radius: 10px;
 }
 .meal-info {
   display: flex;
   align-items: center;
-  margin: auto;
+  margin: 0.7rem auto;
   justify-content: space-between;
-  max-width: 30rem;
+  max-width: 14rem;
+}
+
+.other-meal-icon {
+  font-size: 1.5rem;
+  margin: 0.5rem;
+}
+
+.utensils {
+  margin-left: 1rem;
 }

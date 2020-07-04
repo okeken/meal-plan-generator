@@ -3,6 +3,15 @@ import { useState } from 'react';
 //import { useForm } from 'react-hook-form';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Button } from 'react-bulma-components';
+// get our fontawesome imports
+import {
+  faHome,
+  faHeart,
+  faUtensils,
+  faClock,
+} from '@fortawesome/free-solid-svg-icons';
+import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Axios from 'axios';
 import './App.css';
@@ -10,6 +19,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState(false);
+  const [count, setCount] = useState(0);
   const [isError, setIsError] = useState();
   const [data, setData] = useState({ meals: [] });
   const [dataNu, setDataNu] = useState('');
@@ -40,6 +50,7 @@ function App() {
       setDataNu(result.data.nutrients);
       setIsError(false);
       setView(true);
+      setCount(count + 1);
     } catch (e) {
       setIsError(true);
     }
@@ -50,7 +61,7 @@ function App() {
     <>
       {' '}
       <div className='meal-div'>
-        <h1>Meal Plan Generator</h1>
+        <h1 className='site-title'>Meal Plan Generator</h1>
         <form
           onSubmit={(e) => {
             setUrl(
@@ -68,7 +79,7 @@ function App() {
               fetchData();
             }}
           >
-            Generate my meal
+            {count >= 1 ? 'Generate Another Meal' : 'Generate my meal'}
           </Button>
           <h4
             className={`more-options-headings ${
@@ -276,45 +287,56 @@ function App() {
               fetchData();
             }}
           >
-            Generate my meal
+            {count >= 1 ? 'Generate Another Meal' : 'Generate my meal'}
           </Button>
         </form>
       </div>
-      <div className='div-results'>
+      <div className='div-results' id='results-id'>
         {view && (
           <>
-            <h1> Results</h1>
+            <h2 className='results-day'> Results</h2>
+
             <div>
               <div className='result-div-day'>
-                <div>
+                <div className='columns '>
+                  <div className='nutrients-day m'>
+                    <h2 className='nutrients-headings'>Nutrients</h2>
+                    <p>Calories: {dataNu.calories}</p>
+                    <p>Protein: {dataNu.protein}</p>
+                    <p>Fat: {dataNu.fat}</p>
+                    <p>Carbohydrates: {dataNu.carbohydrates}</p>
+                  </div>
                   {data.meals.map((items) => (
-                    <div className='meal-info-div'>
+                    <div className='meal-info-div column'>
                       <div className='meal-image-title'>
                         <img
                           className='meal-img'
                           src={'assets/img/meal-pic.jpg'}
                           alt='meals'
                         />
-                        <p className='meal-title'>{items.title}</p>
-                        <p className='meal-fav'>Fav</p>
+                        <p className='meal-title grad-bg'>{items.title}</p>
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className='fav grad-bg'
+                        />
                       </div>
                       <div className='meal-info'>
-                        <p>Ready Time: {items.servings}</p>
-
-                        <p>Servings: {items.readyInMinutes}</p>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          className='other-meal-icon'
+                        />
+                        <p>{items.readyInMinutes} mins</p>
+                        <FontAwesomeIcon
+                          icon={faUtensils}
+                          className='other-meal-icon'
+                        />
+                        <p> {items.servings} servings</p>
                       </div>
-                      <Button color='primary' className=''>
+                      <Button color='success is-light' className=''>
                         Get Full Info Plus Recipe
                       </Button>
                     </div>
                   ))}
-                </div>
-                <div>
-                  <h2>Nutrients</h2>
-                  <p>Calories: {dataNu.calories}</p>
-                  <p>Protein: {dataNu.protein}</p>
-                  <p>Fat: {dataNu.fat}</p>
-                  <p>Carbohydrates: {dataNu.carbohydrates}</p>
                 </div>
               </div>
             </div>
