@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 //import { useForm } from 'react-hook-form';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Button } from 'react-bulma-components';
@@ -8,17 +8,21 @@ import Axios from 'axios';
 import './App.css';
 
 function App() {
-  const [url, setUrl] = useState('');
-  const [isLoading, setIsLoading] = useState();
-  const [error, setIsError] = useState(false);
-  const [meals, setMeals] = useState('hi there');
-  const [myRes, setMyRes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [view, setView] = useState(false);
+  const [isError, setIsError] = useState();
+  const [data, setData] = useState({ meals: [] });
+  const [dataNu, setDataNu] = useState('');
 
   //Set Meal Generator Options
   const [timeFrame, setTimeFrame] = useState();
   const [targetCalories, setTargetCalories] = useState(1000);
   const [diet, setDiet] = useState();
   const [exclude, setExclude] = useState();
+
+  const [url, setUrl] = useState(
+    `${process.env.REACT_APP_PARTNER_URL}?timeFrame=${timeFrame}&targetCalories=${targetCalories}&diet=${diet}&exclude=${exclude}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
+  );
 
   // let hidetimeFrame = true;
   const [btnOne, setBtnOne] = useState(true);
@@ -28,21 +32,19 @@ function App() {
   const [hideDiet, setHideDiet] = useState(true);
   const [hideExclude, setHideExclude] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const results = await Axios(url);
-        setMeals(results.data.meals[0]);
-        // setMyRes([...myRes, results.data.meals[0]);
-        // console.log('meals Arrays', myRes);
-      } catch (e) {
-        setIsError(true);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [url]);
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const result = await Axios(url);
+      setData(result.data);
+      setDataNu(result.data.nutrients);
+      setIsError(false);
+      setView(true);
+    } catch (e) {
+      setIsError(true);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -57,10 +59,14 @@ function App() {
             e.preventDefault();
           }}
         >
-          {console.log(meals)}
           <Button
-            color='primary'
-            className={`action-btn ${btnOne ? 'show' : 'hide'}`}
+            color='success'
+            className={`action-btn ${btnOne ? 'show' : 'hide'} ${
+              isLoading ? 'is-loading' : null
+            }`}
+            onClick={() => {
+              fetchData();
+            }}
           >
             Generate my meal
           </Button>
@@ -74,7 +80,7 @@ function App() {
             }}
           >
             {' '}
-            {`${btnOne ? 'More Options ?' : 'More Options'}`}
+            {`${btnOne ? 'More Options ?' : 'Hide Options'}`}
           </h4>
           <div className={` ${!hideOptions ? 'show' : 'hide'}`}>
             <div className='meal-options-div'>
@@ -86,7 +92,6 @@ function App() {
                       <h3
                         onClick={() => {
                           setHideTimeFrame(!hideTimeFrame);
-                          console.log('hellooo');
                         }}
                         className='meal-head-options'
                       >
@@ -244,7 +249,6 @@ function App() {
                     className='meal-head-options'
                     onClick={() => {
                       setHideExclude(!hideExclude);
-                      console.log('hellooo cal');
                     }}
                   >
                     {' '}
@@ -263,19 +267,61 @@ function App() {
           </div>
           <Button
             color='primary'
-            className={`action-btn ${btnOne ? 'hide' : 'show'}`}
+            className={`action-btn ${btnOne ? 'hide' : 'show'} ${
+              isLoading ? 'is-loading' : null
+            }`}
+            onClick={() => {
+              setHideOptions(!hideOptions);
+              setBtnOne(!btnOne);
+              fetchData();
+            }}
           >
             Generate my meal
           </Button>
         </form>
       </div>
-      <div className='results-div'>
-        <h1> Results</h1>
-        <div>
-          Image <p>Title: {meals.title}</p>
-        </div>
-        <p>Time:{meals.readyInMinutes}</p>
-        <p>Serving: {meals.servings}</p>
+      <div className='div-results'>
+        {view && (
+          <>
+            <h1> Results</h1>
+            <div>
+              <div className='result-div-day'>
+                <div>
+                  {data.meals.map((items) => (
+                    <div className='meal-info-div'>
+                      <div className='meal-image-title'>
+                        <img
+                          className='meal-img'
+                          src={'assets/img/meal-pic.jpg'}
+                          alt='meals'
+                        />
+                        <p className='meal-title'>{items.title}</p>
+                        <p className='meal-fav'>Fav</p>
+                      </div>
+                      <div className='meal-info'>
+                        <p>Ready Time: {items.servings}</p>
+
+                        <p>Servings: {items.readyInMinutes}</p>
+                      </div>
+                      <Button color='primary' className=''>
+                        Get Full Info Plus Recipe
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <h2>Nutrients</h2>
+                  <p>Calories: {dataNu.calories}</p>
+                  <p>Protein: {dataNu.protein}</p>
+                  <p>Fat: {dataNu.fat}</p>
+                  <p>Carbohydrates: {dataNu.carbohydrates}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {isError && <>An error Occured!</>}
       </div>
     </>
   );

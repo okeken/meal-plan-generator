@@ -48,6 +48,10 @@
 .more-options-headings {
   cursor: pointer;
 }
+
+.results-div {
+  outline: 2px solid red;
+}
 .meal-head-options {
   color: #fff;
   background: #333;
@@ -69,4 +73,56 @@ label {
   padding: 0.28rem;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.results-div {
+  max-width: 35rem;
+  margin: 2rem auto;
+}
+
+.meal-info-div {
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+.meal-img {
+  width: 100%;
+  height: auto;
+}
+
+.meal-image-title {
+  position: relative;
+  max-width: 18rem;
+  text-align: center;
+  margin: auto;
+}
+
+.meal-fav {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  background: greenyellow;
+  padding: 0.3rem;
+  border-radius: 50%;
+}
+
+.meal-fav:hover {
+  color: pink;
+}
+.meal-title {
+  position: absolute;
+  background: greenyellow;
+  padding: 0.25rem;
+  bottom: 0rem;
+  border-top-right-radius: 10px;
+}
+.meal-info {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: space-between;
+  max-width: 30rem;
 }
