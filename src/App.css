@@ -29,8 +29,7 @@
 }
 
 .action-btn {
-  margin: 1.5rem auto;
-  margin-bottom: 0rem;
+  margin: 0 auto;
 }
 .not-picked {
   display: inline-block;
@@ -51,31 +50,12 @@
   padding: 0.2rem;
 }
 
-.more-options-headings {
-  cursor: pointer;
+.meal-duration {
+  margin: 1.5rem auto;
 }
-
-.meal-head-options {
-  color: #fff;
-  background: #333;
-  border-radius: 10px;
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.3rem 0.5rem;
-  cursor: pointer;
-}
-
-.meal-gen-options li {
-  display: inline-block;
-  margin: 0.6rem;
-  padding: 0.2rem;
-}
-
-label {
-  border: 2px solid green;
-  padding: 0.28rem;
-  border-radius: 10px;
-  cursor: pointer;
+.input-options {
+  margin: 2rem auto;
+  max-width: 20rem;
 }
 
 .results-div {
@@ -108,6 +88,12 @@ label {
   color: #444;
 }
 
+button {
+  border: none;
+}
+input {
+  border: none;
+}
 .results-day:before {
   content: '';
   position: absolute;
@@ -126,6 +112,11 @@ label {
 .result-div-day {
   width: 85%;
   margin: auto;
+}
+
+.pie-chart {
+  max-width: 15rem;
+  outline: 2px solid green;
 }
 .meal-icon {
   padding: 0.4rem;
