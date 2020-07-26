@@ -3,6 +3,7 @@ import { useState, forwardRef } from 'react';
 import {
   SimpleGrid,
   Box,
+  PseudoBox,
   Icon,
   Stack,
   Collapse,
@@ -75,10 +76,11 @@ function Home() {
       <Button
         className='custom-btn'
         ref={ref}
-        variantColor={isChecked ? 'green' : 'gray'}
+        variantColor={isChecked ? 'red' : 'gray'}
         aria-checked={isChecked}
         role='radio'
         isDisabled={isDisabled}
+        size='sm'
         {...rest}
       />
     );
@@ -175,11 +177,12 @@ function Home() {
                   </Button>
                 </Stack>
               </div>
+
               <Button
                 isLoading={isLoadingCo}
                 variantColor='green'
                 loadingText='Loading'
-                className={`action-btn ${btnOne ? 'show' : 'hide'}`}
+                className='action-btn'
                 onClick={() => {
                   fetchData();
                 }}
@@ -281,8 +284,11 @@ function Home() {
                             />
                             <Flex align='flex-start'>
                               <Button
-                                className='get-recipe-btn'
+                                bg='white'
                                 size='md'
+                                height='48px'
+                                width='200px'
+                                className='get-recipe-btn'
                                 variantColor='green'
                                 variant='outline'
                               >

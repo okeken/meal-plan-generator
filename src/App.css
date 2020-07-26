@@ -1,13 +1,19 @@
+body {
+  color: white;
+  background: blueviolet;
+}
+
 .site-title {
   font-size: 2rem;
   font-weight: 600;
-  margin: 3rem;
+  margin: 2rem 0;
+  margin-top: 3rem;
 }
 
 .meal-intro {
-  line-height: 2rem;
+  line-height: 1.5rem;
   margin: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .meal-intro p {
@@ -95,7 +101,6 @@
 
 .nutrients-headings {
   font-size: 1.3rem;
-  color: #444;
 }
 
 .nutrients-spec {
@@ -113,7 +118,7 @@ input {
   position: absolute;
   height: 3px;
   width: 10%;
-  background: green;
+  background: rgb(197, 197, 197);
   border-top-right-radius: 20px;
   bottom: 0;
 }
@@ -202,6 +207,7 @@ button:hover {
 
 .custom-btn {
   margin-top: 1rem;
+  opacity: 0.8;
 }
 
 .meal-tit {
