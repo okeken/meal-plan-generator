@@ -163,17 +163,25 @@ input {
 button:hover {
   cursor: pointer;
 }
+
+.ready-para {
+  margin-right: 1rem !important;
+}
 .other-meal-info {
   padding: 0.5rem;
   line-height: 1.5rem;
+
+  background: #333;
 }
 .other-meal-info p,
 .other-meal-info .other-meal-icon {
+  display: inline-block;
   margin: 0;
 }
 .other-meal-info .other-meal-icon {
   font-size: 1rem;
   opacity: 0.7;
+  margin-right: 0.3rem;
 }
 .meal-card-div:last-child {
   margin-left: 1rem;
@@ -187,9 +195,15 @@ button:hover {
   max-width: 15rem;
 }
 
+.img-div {
+  position: relative;
+}
 .div-flex {
   display: flex;
-  flex-direction: column;
+
+  position: absolute;
+  color: whitesmoke;
+  bottom: 0;
 }
 .nut-name {
   font-size: 0.8rem;

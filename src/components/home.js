@@ -147,13 +147,15 @@ function Home() {
                       onChange={handleChange}
                     />
                     <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
+                      <NumberIncrementStepper bg='green.400' />
+                      <NumberDecrementStepper bg='green.400' />
                     </NumberInputStepper>
                   </NumberInput>
 
                   <Collapse startingHeight={0} isOpen={show}>
                     <Select
+                      backgroundColor='tomato'
+                      borderColor='tomato'
                       placeholder='Meal Plan Duration'
                       className='meal-duration'
                       onChange={(e) => {
@@ -237,7 +239,6 @@ function Home() {
                         </div>
                         <Flex justify='space-between' wrap='wrap'>
                           <div className='nutrients-spec'>
-                            {/* <p>{dataNu.calories}</p> */}
                             <p>
                               <img
                                 className='calo-img protein'
@@ -277,11 +278,31 @@ function Home() {
                                     .replace(/[{()}]/g, '')
                                     .slice(0, 18) + '...'}
                             </p>
-                            <img
-                              className='meal-box-img'
-                              src={'assets/img/meal-pic.jpg'}
-                              alt='meals'
-                            />
+                            <div className='img-div'>
+                              <img
+                                className='meal-box-img'
+                                src={'assets/img/meal-pic.jpg'}
+                                alt='meals'
+                              />
+                              <div className='div-flex'>
+                                <div>
+                                  <div className='other-meal-info'>
+                                    <FontAwesomeIcon
+                                      icon={faClock}
+                                      className='other-meal-icon'
+                                    />
+                                    <p className='ready-para'>
+                                      {items.readyInMinutes} mins
+                                    </p>
+                                    <FontAwesomeIcon
+                                      icon={faUtensils}
+                                      className='other-meal-icon utensils'
+                                    />
+                                    <p> {items.servings} servings</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                             <Flex align='flex-start'>
                               <Button
                                 bg='white'
@@ -295,23 +316,6 @@ function Home() {
                                 Get Recipe
                               </Button>
                             </Flex>
-                            <div className='div-flex'>
-                              <div>
-                                {/* <div className='other-meal-info'>
-                                  <FontAwesomeIcon
-                                    icon={faClock}
-                                    className='other-meal-icon'
-                                  />
-                                  <p>{items.readyInMinutes} mins</p>
-                                  <FontAwesomeIcon
-                                    icon={faUtensils}
-                                    className='other-meal-icon'
-                                  />
-                                  <p> {items.servings} servings</p>
-                                </div> */}
-                              </div>
-                              <div className='flex-btn'></div>
-                            </div>
                           </div>
                         </>
                       ))}
