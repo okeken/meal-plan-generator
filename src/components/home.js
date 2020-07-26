@@ -96,7 +96,8 @@ function Home() {
           <h1 className='site-title'>Free Meal Planner </h1>
           <p>
             Never run out of ideas of what to eat, automate your diets with our
-            personalized meal planner generator
+            personalized meal planner generator. With over 50,000 cuisines and
+            meals to choose from, plan your meal in advance for a healthy living
           </p>
           <p>
             Get personalized meal plans based your calories requirement, plan
@@ -226,12 +227,33 @@ function Home() {
                             <span className='nut-name'>Carb.</span>
                           </Flex>
                         </div>
-                        <Flex justify='space-between'>
+                        <Flex justify='space-between' wrap='wrap'>
                           <div className='nutrients-spec'>
-                            <p>Calories: {dataNu.calories}</p>
-                            <p>Protein: {dataNu.protein}</p>
-                            <p>Fat: {dataNu.fat}</p>
-                            <p>Carbohydrates: {dataNu.carbohydrates}</p>
+                            {/* <p>{dataNu.calories}</p> */}
+                            <p>
+                              <img
+                                className='calo-img protein'
+                                src={'assets/img/protein.svg'}
+                                alt='Protein :'
+                              />
+                              {dataNu.protein}
+                            </p>
+                            <p>
+                              <img
+                                className='calo-img fat'
+                                src={'assets/img/fats.svg'}
+                                alt='Fats: '
+                              />
+                              {dataNu.fat}
+                            </p>
+                            <p>
+                              <img
+                                className='calo-img carb'
+                                src={'assets/img/carb.svg'}
+                                alt='Carbohydrates :'
+                              />
+                              {dataNu.carbohydrates}
+                            </p>
                           </div>
                         </Flex>
                       </Flex>
@@ -241,7 +263,6 @@ function Home() {
                         <>
                           <div className='meal-card-div'>
                             <p className='meal-tit'>
-                              {/* {items.title.replace(/[{()}]/g, '')} */}
                               {items.title.length <= 18
                                 ? items.title
                                 : items.title
