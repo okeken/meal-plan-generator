@@ -170,7 +170,6 @@ button:hover {
 .other-meal-info {
   padding: 0.5rem;
   line-height: 1.5rem;
-
   background: #333;
 }
 .other-meal-info p,
@@ -200,10 +199,9 @@ button:hover {
 }
 .div-flex {
   display: flex;
-
   position: absolute;
   color: whitesmoke;
-  bottom: 0;
+  bottom: 0.8rem;
 }
 .nut-name {
   font-size: 0.8rem;
@@ -230,7 +228,6 @@ button:hover {
   background: green;
   position: absolute;
   left: 0;
-  top: -2.7rem;
 }
 .meal-box-img {
   max-width: 13rem;

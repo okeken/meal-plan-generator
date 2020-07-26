@@ -271,14 +271,14 @@ function Home() {
                       {data.meals.map((items) => (
                         <>
                           <div className='meal-card-div'>
-                            <p className='meal-tit'>
-                              {items.title.length <= 18
-                                ? items.title
-                                : items.title
-                                    .replace(/[{()}]/g, '')
-                                    .slice(0, 18) + '...'}
-                            </p>
                             <div className='img-div'>
+                              <p className='meal-tit'>
+                                {items.title.length <= 18
+                                  ? items.title
+                                  : items.title
+                                      .replace(/[{()}]/g, '')
+                                      .slice(0, 18) + '...'}
+                              </p>
                               <img
                                 className='meal-box-img'
                                 src={'assets/img/meal-pic.jpg'}
