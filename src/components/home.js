@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState, forwardRef } from 'react';
 import {
+  SimpleGrid,
+  Box,
+  Icon,
   Stack,
   Collapse,
   Flex,
@@ -180,70 +183,81 @@ function Home() {
                   <div className='columns '>
                     <div className='nutrients-day m'>
                       <h2 className='nutrients-headings'>Nutrients</h2>
-                      <Flex align='center'>
-                        <div>
-                          <div className='pie-chart'>
-                            <PieChart
-                              data={[
-                                {
-                                  title: 'Protein',
-                                  value: dataNu.protein,
-                                  color: '#E38627',
-                                },
-                                {
-                                  title: 'Fat',
-                                  value: dataNu.fat,
-                                  color: '#C13C37',
-                                },
-                                {
-                                  title: 'Carbohydrates',
-                                  value: dataNu.carbohydrates,
-                                  color: '#6A2135',
-                                },
-                              ]}
-                            />
+                      <Flex align='center' justify='space-between'>
+                        <div className='pie-chart'>
+                          <PieChart
+                            data={[
+                              {
+                                title: 'Protein',
+                                value: dataNu.protein,
+                                color: '#E38627',
+                              },
+                              {
+                                title: 'Fat',
+                                value: dataNu.fat,
+                                color: '#C13C37',
+                              },
+                              {
+                                title: 'Carbohydrates',
+                                value: dataNu.carbohydrates,
+                                color: '#6A2135',
+                              },
+                            ]}
+                          />
+                          {/* <Stack isInline> */}
+                          <Icon name='minus' size='32px' color='#E38627' />
+                          Protein &nbsp;&nbsp;
+                          <Icon name='minus' size='32px' color='#C13C37' />
+                          Fats &nbsp;&nbsp;
+                          <Icon name='minus' size='32px' color='#6A2135' />
+                          Carb.is-size-1-widescreen
+                          {/* </Stack> */}
+                        </div>
+                        <Flex justify='space-between'>
+                          <div className='nutrients-spec'>
+                            <p>Calories: {dataNu.calories}</p>
+                            <p>Protein: {dataNu.protein}</p>
+                            <p>Fat: {dataNu.fat}</p>
+                            <p>Carbohydrates: {dataNu.carbohydrates}</p>
                           </div>
-                        </div>
-                        <div>
-                          <p>Calories: {dataNu.calories}</p>
-                          <p>Protein: {dataNu.protein}</p>
-                          <p>Fat: {dataNu.fat}</p>
-                          {console.log('data type', typeof dataNu.protein)}
-                          <p>Carbohydrates: {dataNu.carbohydrates}</p>
-                        </div>
+                        </Flex>
                       </Flex>
                     </div>
-                    {data.meals.map((items) => (
-                      <div className='meal-info-div column'>
-                        <div className='meal-image-title'>
-                          <img
-                            className='meal-img'
-                            src={'assets/img/meal-pic.jpg'}
-                            alt='meals'
-                          />
-                          <p className='meal-title grad-bg'>{items.title}</p>
-                          <FontAwesomeIcon
-                            icon={faHeart}
-                            className='fav grad-bg'
-                          />
-                        </div>
-                        <div className='meal-info'>
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            className='other-meal-icon'
-                          />
-                          <p>{items.readyInMinutes} mins</p>
-                          <FontAwesomeIcon
-                            icon={faUtensils}
-                            className='other-meal-icon'
-                          />
-                          <p> {items.servings} servings</p>
-                        </div>
-                        <button color='success is-light' className=''>
-                          Get Full Info Plus Recipe
-                        </button>
-                      </div>
-                    ))}
+                    <div className='meal-div-mapping'>
+                      {data.meals.map((items) => (
+                        <>
+                          <div className='test'>
+                            <img
+                              className='meal-box-img'
+                              src={'assets/img/meal-pic.jpg'}
+                              alt='meals'
+                            />
+                            <div className='div-flex'>
+                              <p className='meal-tit'>
+                                {items.title.length <= 20
+                                  ? items.title
+                                  : items.title
+                                      .replace(/[{()}]/g, '')
+                                      .slice(0, 35) + '...'}
+                              </p>
+                              <FontAwesomeIcon
+                                icon={faHeart}
+                                className='fav grad-bg'
+                              />
+                              <div className='flex-btn'>
+                                <Button
+                                  size='md'
+                                  variantColor='green'
+                                  variant='outline'
+                                >
+                                  Get Recipe
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

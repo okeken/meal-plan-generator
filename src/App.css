@@ -106,7 +106,8 @@ input {
 
 .nutrients-day {
   line-height: 2rem;
-  margin: 2rem;
+  margin: 2rem auto;
+  max-width: 30rem;
 }
 
 .result-div-day {
@@ -116,7 +117,36 @@ input {
 
 .pie-chart {
   max-width: 15rem;
+}
+
+.meal-div-mapping {
+  text-align: center;
+}
+.test {
+  display: inline-flex;
+  outline: 2px solid red;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 25rem;
+}
+.box-div {
   outline: 2px solid green;
+  max-width: 15rem;
+}
+
+.div-flex {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+.flex-btn {
+  margin: auto;
+  max-width: 7rem;
+}
+.meal-box-img {
+  max-width: 10rem;
+  border: 3px solid black;
 }
 .meal-icon {
   padding: 0.4rem;
