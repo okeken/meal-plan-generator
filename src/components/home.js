@@ -73,6 +73,7 @@ function Home() {
     const { isChecked, isDisabled, value, ...rest } = props;
     return (
       <Button
+        className='custom-btn'
         ref={ref}
         variantColor={isChecked ? 'green' : 'gray'}
         aria-checked={isChecked}
@@ -94,16 +95,17 @@ function Home() {
         {' '}
         <div className='meal-div'>
           <div className='meal-intro'>
-          <h1 className='site-title'>Free Meal Planner </h1>
-          <p>
-            Never run out of ideas of what to eat, automate your diets with our
-            personalized meal planner generator. With over 50,000 cuisines and
-            meals to choose from, plan your meal in advance for a healthy living
-          </p>
-          <p>
-            Get personalized meal plans based your calories requirement, plan
-            duration, and your diet type all in one place.
-          </p>
+            <h1 className='site-title'>Free Meal Planner </h1>
+            <p>
+              Never run out of ideas of what to eat, automate your diets with
+              our personalized meal planner generator. With over 50,000 cuisines
+              and meals to choose from, plan your meal in advance for a healthy
+              living
+            </p>
+            <p>
+              Get personalized meal plans based your calories requirement, plan
+              duration, and your diet type all in one place.
+            </p>
           </div>
           <form
             onSubmit={(e) => {
@@ -125,6 +127,8 @@ function Home() {
                 <CustomRadio value='ketogenic'>Ketogenic</CustomRadio>
                 <CustomRadio value='gluten-free'>Gluten Free</CustomRadio>
                 <CustomRadio value='vegetarian'>Vegetarian</CustomRadio>
+                <CustomRadio value='vegan'>Vegan</CustomRadio>
+                <CustomRadio value='paleo'>Paleo</CustomRadio>
               </RadioButtonGroup>
 
               <div className='input-options'>

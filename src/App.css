@@ -200,6 +200,10 @@ button:hover {
   max-width: 7rem;
 }
 
+.custom-btn {
+  margin-top: 1rem;
+}
+
 .meal-tit {
   color: whitesmoke;
   padding: 0.3rem;
