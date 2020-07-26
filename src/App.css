@@ -4,6 +4,16 @@
   margin: 3rem;
 }
 
+.meal-intro {
+  line-height: 2rem;
+  margin: 1rem;
+  margin-bottom: 2rem;
+}
+
+.meal-intro p {
+  text-align: left;
+}
+
 .meal-div {
   margin: 2rem auto;
   text-align: center;
@@ -196,7 +206,7 @@ button:hover {
   background: green;
   position: absolute;
   left: 0;
-  top: -2.9rem;
+  top: -2.7rem;
 }
 .meal-box-img {
   max-width: 13rem;

@@ -93,6 +93,7 @@ function Home() {
       <ThemeProvider>
         {' '}
         <div className='meal-div'>
+          <div className='meal-intro'>
           <h1 className='site-title'>Free Meal Planner </h1>
           <p>
             Never run out of ideas of what to eat, automate your diets with our
@@ -103,7 +104,7 @@ function Home() {
             Get personalized meal plans based your calories requirement, plan
             duration, and your diet type all in one place.
           </p>
-
+          </div>
           <form
             onSubmit={(e) => {
               setUrl(
