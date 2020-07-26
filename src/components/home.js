@@ -93,7 +93,16 @@ function Home() {
       <ThemeProvider>
         {' '}
         <div className='meal-div'>
-          <h1 className='site-title'>Meal Plan Generator</h1>
+          <h1 className='site-title'>Free Meal Planner </h1>
+          <p>
+            Never run out of ideas of what to eat, automate your diets with our
+            personalized meal planner generator
+          </p>
+          <p>
+            Get personalized meal plans based your calories requirement, plan
+            duration, and your diet type all in one place.
+          </p>
+
           <form
             onSubmit={(e) => {
               setUrl(
@@ -204,14 +213,18 @@ function Home() {
                               },
                             ]}
                           />
-                          {/* <Stack isInline> */}
-                          <Icon name='minus' size='32px' color='#E38627' />
-                          Protein &nbsp;&nbsp;
-                          <Icon name='minus' size='32px' color='#C13C37' />
-                          Fats &nbsp;&nbsp;
-                          <Icon name='minus' size='32px' color='#6A2135' />
-                          Carb.is-size-1-widescreen
-                          {/* </Stack> */}
+                          <Flex align='center'>
+                            <Flex align='center'>
+                              <Icon name='minus' size='32px' color='#E38627' />
+                              <span className='nut-name'>Protein</span>
+                              &nbsp;&nbsp;
+                            </Flex>
+                            <Icon name='minus' size='32px' color='#C13C37' />
+                            <span className='nut-name'>Fats</span>
+                            &nbsp;&nbsp;
+                            <Icon name='minus' size='32px' color='#6A2135' />
+                            <span className='nut-name'>Carb.</span>
+                          </Flex>
                         </div>
                         <Flex justify='space-between'>
                           <div className='nutrients-spec'>
@@ -226,33 +239,46 @@ function Home() {
                     <div className='meal-div-mapping'>
                       {data.meals.map((items) => (
                         <>
-                          <div className='test'>
+                          <div className='meal-card-div'>
+                            <p className='meal-tit'>
+                              {/* {items.title.replace(/[{()}]/g, '')} */}
+                              {items.title.length <= 18
+                                ? items.title
+                                : items.title
+                                    .replace(/[{()}]/g, '')
+                                    .slice(0, 18) + '...'}
+                            </p>
                             <img
                               className='meal-box-img'
                               src={'assets/img/meal-pic.jpg'}
                               alt='meals'
                             />
+                            <Flex align='flex-start'>
+                              <Button
+                                className='get-recipe-btn'
+                                size='md'
+                                variantColor='green'
+                                variant='outline'
+                              >
+                                Get Recipe
+                              </Button>
+                            </Flex>
                             <div className='div-flex'>
-                              <p className='meal-tit'>
-                                {items.title.length <= 20
-                                  ? items.title
-                                  : items.title
-                                      .replace(/[{()}]/g, '')
-                                      .slice(0, 35) + '...'}
-                              </p>
-                              <FontAwesomeIcon
-                                icon={faHeart}
-                                className='fav grad-bg'
-                              />
-                              <div className='flex-btn'>
-                                <Button
-                                  size='md'
-                                  variantColor='green'
-                                  variant='outline'
-                                >
-                                  Get Recipe
-                                </Button>
+                              <div>
+                                {/* <div className='other-meal-info'>
+                                  <FontAwesomeIcon
+                                    icon={faClock}
+                                    className='other-meal-icon'
+                                  />
+                                  <p>{items.readyInMinutes} mins</p>
+                                  <FontAwesomeIcon
+                                    icon={faUtensils}
+                                    className='other-meal-icon'
+                                  />
+                                  <p> {items.servings} servings</p>
+                                </div> */}
                               </div>
+                              <div className='flex-btn'></div>
                             </div>
                           </div>
                         </>
