@@ -1,1 +1,1 @@
-## Aumatic Meal Planner
+## Automatic Meal Planner

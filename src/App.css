@@ -194,6 +194,10 @@ button:hover {
   max-width: 15rem;
 }
 
+::placeholder {
+  color: whitesmoke;
+  opacity: 1;
+}
 .img-div {
   position: relative;
 }

@@ -34,6 +34,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Axios from 'axios';
 
+let dailyArr = [];
 function Home() {
   const [show, setShow] = useState(false);
   const [isLoadingCo, setIsLoadingCo] = useState(false);
@@ -42,6 +43,7 @@ function Home() {
   const [isError, setIsError] = useState();
   const [data, setData] = useState({ meals: [] });
   const [dataNu, setDataNu] = useState('');
+  const [choosen, setChoosen] = useState(-1);
 
   //Set Meal Generator Options
   const [timeFrame, setTimeFrame] = useState('');
@@ -64,10 +66,34 @@ function Home() {
       setIsError(false);
       setView(true);
       setCount(count + 1);
+      dailyArr.push({
+        id: result.data.meals.map((i) => i.id),
+        url: result.data.meals.map((i) => i.sourceUrl),
+      });
     } catch (e) {
       setIsError(true);
     }
     setIsLoadingCo(false);
+  };
+
+  //Set Recipe Generation
+  const [recipe, setRecipe] = useState({});
+  const [recipeView, setRecipeView] = useState(false);
+  const [isLoadingRecipe, setIsLoadingRecipe] = useState(null);
+  const [isErrorRecipe, setIsErrorRecipe] = useState(false);
+  const [recipeUrl, setRecipeUrl] = useState('');
+  const [dailyDataArr, setDailyDataArr] = useState({});
+
+  const fetchRecipe = async () => {
+    try {
+      setRecipeView(true);
+      let res = await Axios(recipeUrl);
+      setRecipe(res.data);
+    } catch (e) {
+      setIsErrorRecipe(true);
+    }
+
+    setIsLoadingRecipe(false);
   };
 
   const CustomRadio = forwardRef((props, ref) => {
@@ -86,10 +112,8 @@ function Home() {
     );
   });
 
-  //const [state,  setState] = useState(1200);
   let handleChange = (e) => {
     setTargetCalories(e.target.value);
-    console.log(targetCalories);
   };
   return (
     <>
@@ -160,7 +184,6 @@ function Home() {
                       className='meal-duration'
                       onChange={(e) => {
                         setTimeFrame(e.target.value);
-                        console.log(timeFrame);
                       }}
                     >
                       <option value='day'>day</option>
@@ -305,6 +328,9 @@ function Home() {
                             </div>
                             <Flex align='flex-start'>
                               <Button
+                                value={items.id}
+                                isLoading={isLoadingRecipe}
+                                // loadingText='Loading'
                                 bg='white'
                                 size='md'
                                 height='48px'
@@ -312,6 +338,25 @@ function Home() {
                                 className='get-recipe-btn'
                                 variantColor='green'
                                 variant='outline'
+                                onClick={(e) => {
+                                  setRecipeView(false);
+                                  let a = dailyArr[0];
+                                  setDailyDataArr(dailyArr[0]);
+                                  let pos = a.id.findIndex(
+                                    (i) => i === items.id
+                                  );
+
+                                  if (pos >= 0) {
+                                    setIsLoadingRecipe(true);
+                                  }
+                                  setChoosen(pos);
+                                  let newUrl = dailyArr[0].url[pos];
+                                  setRecipeUrl(
+                                    `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${newUrl}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
+                                  );
+                                  setRecipeView(false);
+                                  fetchRecipe();
+                                }}
                               >
                                 Get Recipe
                               </Button>
@@ -325,9 +370,33 @@ function Home() {
               </div>
             </>
           )}
-
           {isError && <>An error Occured!</>}
         </div>
+        {recipeView && (
+          <>
+            <div>
+              <div>
+                <div>Food Image</div>
+                <div>
+                  <Flex align='center' justify='center'>
+                    {/* <p>{recipe.preparationMinutes}</p> */}
+                    {/* <p>{recipe.cookingMinutes}</p>
+                    <p>{recipe.pricePerServing}</p>
+                    <p>{recipe.healthscore}</p>
+                    <p>{recipe.servings}</p>
+                    <p>{recipe.diets.join(',')}</p> */}
+                  </Flex>
+                </div>
+              </div>
+              <div>
+                Ingredients
+                {}
+              </div>
+              <div>Instructions</div>
+            </div>
+          </>
+        )}
+        {isErrorRecipe && <>Error Fetching Recipe</>}
       </ThemeProvider>
     </>
   );
