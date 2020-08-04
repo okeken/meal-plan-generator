@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import {
   SimpleGrid,
   Box,
@@ -44,19 +44,41 @@ function Home() {
   const [data, setData] = useState({ meals: [] });
   const [dataNu, setDataNu] = useState('');
   const [choosen, setChoosen] = useState(-1);
+  const [dailyArray, setDailyArray] = useState([]);
 
   //Set Meal Generator Options
   const [timeFrame, setTimeFrame] = useState('');
   const [targetCalories, setTargetCalories] = useState(0);
   const [diet, setDiet] = useState();
   const [exclude, setExclude] = useState();
+  const [imgArr, setImgArr] = useState(['assets/img/meal-pic.jpg']);
 
   const [url, setUrl] = useState(
     `${process.env.REACT_APP_PARTNER_URL}?timeFrame=${timeFrame}&targetCalories=${targetCalories}&diet=${diet}&exclude=${exclude}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
   );
 
   const [btnOne, setBtnOne] = useState(true);
+  const [runImg, setRunImg] = useState('no');
 
+  let imgSrc = [];
+  let populateImg = () => {
+    dailyArray.forEach((el) => {
+      (async () => {
+        try {
+          const imgRes = await Axios(
+            `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${el}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
+          );
+
+          imgSrc.push(imgRes.data.image);
+          setImgArr([...imgSrc]);
+        } catch (e) {
+          console.log(e);
+        }
+      })();
+    });
+  };
+
+  // let testArr = []
   const fetchData = async () => {
     setIsLoadingCo(true);
     try {
@@ -66,10 +88,21 @@ function Home() {
       setIsError(false);
       setView(true);
       setCount(count + 1);
-      dailyArr.push({
-        id: result.data.meals.map((i) => i.id),
-        url: result.data.meals.map((i) => i.sourceUrl),
-      });
+      setDailyArray(
+        [...result.data.meals.map((i) => i.sourceUrl)]
+        //   {
+        //    ...dailyArray,
+        // //    url: result.data.meals.map((i) => i.sourceUrl),
+        //    id: result.data.meals.map((i) => i.id),
+        //   }
+
+        // ]
+        //   [...result.data.meals.map((i) => i.id)]
+      );
+      console.log('dailyArray full  >', dailyArray);
+
+      setRunImg('yes');
+      populateImg();
     } catch (e) {
       setIsError(true);
     }
@@ -218,7 +251,13 @@ function Home() {
           </form>
         </div>
         <div className='div-results' id='results-id'>
-          {view && (
+          <div>
+            {imgArr.slice(0, 3).map((i) => (
+              <img className='meal-box-img' src={i} alt='meals' />
+            ))}
+          </div>
+
+          {!isError && view && (
             <>
               <h2 className='results-day'> Results</h2>
               <div>
@@ -290,6 +329,37 @@ function Home() {
                         </Flex>
                       </Flex>
                     </div>
+
+                    <div>
+                      {/* {data.meals.map((items) => (
+                        <>
+                          <div>
+                            <p className='meal-tit'>
+                              {items.title.length <= 18
+                                ? items.title
+                                : items.title
+                                    .replace(/[{()}]/g, '')
+                                    .slice(0, 18) + '...'}
+                            </p>
+                          </div>
+                        </>
+                      ))} */}
+                    </div>
+
+                    <div>
+                      {data.meals.map((items) => (
+                        <>
+                          <p className='meal-tit'>
+                            {items.title.length <= 18
+                              ? items.title
+                              : items.title
+                                  .replace(/[{()}]/g, '')
+                                  .slice(0, 18) + '...'}
+                          </p>
+                        </>
+                      ))}
+                    </div>
+
                     <div className='meal-div-mapping'>
                       {data.meals.map((items) => (
                         <>
@@ -302,11 +372,13 @@ function Home() {
                                       .replace(/[{()}]/g, '')
                                       .slice(0, 18) + '...'}
                               </p>
+
                               <img
                                 className='meal-box-img'
                                 src={'assets/img/meal-pic.jpg'}
                                 alt='meals'
                               />
+
                               <div className='div-flex'>
                                 <div>
                                   <div className='other-meal-info'>
@@ -355,7 +427,7 @@ function Home() {
                                     `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${newUrl}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
                                   );
                                   setRecipeView(false);
-                                  fetchRecipe();
+                                  //  fetchRecipe();
                                 }}
                               >
                                 Get Recipe
@@ -372,7 +444,7 @@ function Home() {
           )}
           {isError && <>An error Occured!</>}
         </div>
-        {recipeView && (
+        {!isErrorRecipe && recipeView && (
           <>
             <div>
               <div>
