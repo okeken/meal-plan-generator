@@ -46,7 +46,7 @@ function Home() {
   const [choosen, setChoosen] = useState(-1);
   const [dailyArray, setDailyArray] = useState([]);
 
-  //Set Meal Generator Options
+  //Set Meal Generator Option
   const [timeFrame, setTimeFrame] = useState('');
   const [targetCalories, setTargetCalories] = useState(0);
   const [diet, setDiet] = useState('');
