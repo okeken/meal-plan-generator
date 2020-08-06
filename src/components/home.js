@@ -42,15 +42,15 @@ function Home() {
   const [count, setCount] = useState(0);
   const [isError, setIsError] = useState();
   const [data, setData] = useState({ meals: [] });
-  const [dataNu, setDataNu] = useState('');
+  const [tstData, setTstData] = useState({ meals: [] });
   const [choosen, setChoosen] = useState(-1);
   const [dailyArray, setDailyArray] = useState([]);
 
   //Set Meal Generator Options
   const [timeFrame, setTimeFrame] = useState('');
   const [targetCalories, setTargetCalories] = useState(0);
-  const [diet, setDiet] = useState();
-  const [exclude, setExclude] = useState();
+  const [diet, setDiet] = useState('');
+  const [exclude, setExclude] = useState('');
   const [imgArr, setImgArr] = useState(['assets/img/meal-pic.jpg']);
 
   const [url, setUrl] = useState(
@@ -58,51 +58,48 @@ function Home() {
   );
 
   const [btnOne, setBtnOne] = useState(true);
-  const [runImg, setRunImg] = useState('no');
+  const [dataImg, setDataImg] = useState([]);
 
   let imgSrc = [];
-  let populateImg = () => {
-    dailyArray.forEach((el) => {
-      (async () => {
-        try {
-          const imgRes = await Axios(
-            `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${el}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
-          );
-
-          imgSrc.push(imgRes.data.image);
-          setImgArr([...imgSrc]);
-        } catch (e) {
-          console.log(e);
-        }
-      })();
-    });
-  };
-
-  // let testArr = []
   const fetchData = async () => {
     setIsLoadingCo(true);
     try {
       const result = await Axios(url);
       setData(result.data);
-      setDataNu(result.data.nutrients);
       setIsError(false);
       setView(true);
       setCount(count + 1);
-      setDailyArray(
-        [...result.data.meals.map((i) => i.sourceUrl)]
-        //   {
-        //    ...dailyArray,
-        // //    url: result.data.meals.map((i) => i.sourceUrl),
-        //    id: result.data.meals.map((i) => i.id),
-        //   }
+      let myArrr = result.data.meals.map((i) => i.sourceUrl);
+      let promise = new Promise((setDailyArray, reject) => {
+        setDailyArray([...myArrr]);
+      });
 
-        // ]
-        //   [...result.data.meals.map((i) => i.id)]
+      promise.then((d) =>
+        d.forEach((el) => {
+          (async () => {
+            try {
+              const imgRes = await Axios(
+                `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${el}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
+              );
+              imgSrc.push(imgRes.data.image);
+              setImgArr([...imgSrc]);
+
+              let testArr = [];
+
+              let mypromise = new Promise((resolve, rej) => {
+                result.data.meals.forEach((i, idx) => {
+                  let nwo = { ...i, url: imgSrc[idx] };
+                  testArr.push(nwo);
+                  setDataImg([...testArr]);
+                });
+              });
+              mypromise.then((d) => setDataImg([...testArr]));
+            } catch (e) {
+              console.log(e);
+            }
+          })();
+        })
       );
-      console.log('dailyArray full  >', dailyArray);
-
-      setRunImg('yes');
-      populateImg();
     } catch (e) {
       setIsError(true);
     }
@@ -161,6 +158,7 @@ function Home() {
               and meals to choose from, plan your meal in advance for a healthy
               living
             </p>
+
             <p>
               Get personalized meal plans based your calories requirement, plan
               duration, and your diet type all in one place.
@@ -251,12 +249,6 @@ function Home() {
           </form>
         </div>
         <div className='div-results' id='results-id'>
-          <div>
-            {imgArr.slice(0, 3).map((i) => (
-              <img className='meal-box-img' src={i} alt='meals' />
-            ))}
-          </div>
-
           {!isError && view && (
             <>
               <h2 className='results-day'> Results</h2>
@@ -271,17 +263,17 @@ function Home() {
                             data={[
                               {
                                 title: 'Protein',
-                                value: dataNu.protein,
+                                value: data.nutrients.protein,
                                 color: '#E38627',
                               },
                               {
                                 title: 'Fat',
-                                value: dataNu.fat,
+                                value: data.nutrients.fat,
                                 color: '#C13C37',
                               },
                               {
                                 title: 'Carbohydrates',
-                                value: dataNu.carbohydrates,
+                                value: data.nutrients.carbohydrates,
                                 color: '#6A2135',
                               },
                             ]}
@@ -307,7 +299,8 @@ function Home() {
                                 src={'assets/img/protein.svg'}
                                 alt='Protein :'
                               />
-                              {dataNu.protein}
+
+                              {data.nutrients.protein}
                             </p>
                             <p>
                               <img
@@ -315,7 +308,7 @@ function Home() {
                                 src={'assets/img/fats.svg'}
                                 alt='Fats: '
                               />
-                              {dataNu.fat}
+                              {data.nutrients.fat}
                             </p>
                             <p>
                               <img
@@ -323,45 +316,15 @@ function Home() {
                                 src={'assets/img/carb.svg'}
                                 alt='Carbohydrates :'
                               />
-                              {dataNu.carbohydrates}
+                              {data.nutrients.carbohydrates}
                             </p>
                           </div>
                         </Flex>
                       </Flex>
                     </div>
 
-                    <div>
-                      {/* {data.meals.map((items) => (
-                        <>
-                          <div>
-                            <p className='meal-tit'>
-                              {items.title.length <= 18
-                                ? items.title
-                                : items.title
-                                    .replace(/[{()}]/g, '')
-                                    .slice(0, 18) + '...'}
-                            </p>
-                          </div>
-                        </>
-                      ))} */}
-                    </div>
-
-                    <div>
-                      {data.meals.map((items) => (
-                        <>
-                          <p className='meal-tit'>
-                            {items.title.length <= 18
-                              ? items.title
-                              : items.title
-                                  .replace(/[{()}]/g, '')
-                                  .slice(0, 18) + '...'}
-                          </p>
-                        </>
-                      ))}
-                    </div>
-
                     <div className='meal-div-mapping'>
-                      {data.meals.map((items) => (
+                      {dataImg.map((items) => (
                         <>
                           <div className='meal-card-div'>
                             <div className='img-div'>
@@ -375,7 +338,7 @@ function Home() {
 
                               <img
                                 className='meal-box-img'
-                                src={'assets/img/meal-pic.jpg'}
+                                src={items.url}
                                 alt='meals'
                               />
 
