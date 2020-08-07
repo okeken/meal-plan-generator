@@ -458,12 +458,12 @@ function Home() {
               </div>
               <div>
                 {/* <h2>Instructions</h2> */}
-                {recipe.analyzedInstructions === undefined
+                {/* {recipe.analyzedInstructions === undefined
                   ? ''
                   : console.log(
                       'instructions >>>>',
                       recipe.analyzedInstructions
-                    )}
+                    )} */}
                 {/* {recipe.analyzedInstructions === undefined ? (
                   ''
                 ) : (
