@@ -370,3 +370,61 @@ img {
   background: blue;
   transform: rotateY(180deg);
 }
+
+.recipe-div {
+  max-width: 45rem;
+  margin: auto;
+  padding: 1rem 1.5rem;
+}
+
+#recipe-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.recipe-meal-div {
+  max-width: 45rem;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-meal-img {
+  max-width: 30rem;
+  height: auto;
+  margin: auto;
+}
+
+.recipe-summary {
+  padding: 0.5rem;
+  background: rgba(182, 180, 180, 0.219);
+  padding: 0.5rem;
+  border-radius: 10px;
+  max-width: 35rem;
+  margin: 2rem auto;
+  line-height: 2rem;
+}
+.recipe-summary a {
+  text-decoration: none;
+  color: white;
+}
+
+.recipe-ingredients-img {
+  max-width: 5rem;
+  height: 5rem;
+}
+
+.recipe-ing {
+  text-align: center;
+}
+
+.recipe-meal-info {
+  max-width: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  margin-bottom: -0.8rem;
+  transform: translateY(-0.8rem);
+}

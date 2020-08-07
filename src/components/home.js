@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, forwardRef, useEffect } from 'react';
 import {
   SimpleGrid,
+  Grid,
   Box,
   PseudoBox,
   Icon,
@@ -67,7 +68,9 @@ function Home() {
       const result = await Axios(url);
       setData(result.data);
       setIsError(false);
+      setIsErrorRecipe(false);
       setView(true);
+      setRecipeView(false);
       setCount(count + 1);
       let myArrr = result.data.meals.map((i) => i.sourceUrl);
       let promise = new Promise((setDailyArray, reject) => {
@@ -114,17 +117,27 @@ function Home() {
   const [recipeUrl, setRecipeUrl] = useState('');
   const [dailyDataArr, setDailyDataArr] = useState({});
 
-  const fetchRecipe = async () => {
-    try {
-      setRecipeView(true);
-      let res = await Axios(recipeUrl);
-      setRecipe(res.data);
-    } catch (e) {
-      setIsErrorRecipe(true);
+  useEffect(() => {
+    if (!recipeUrl) {
+      return;
     }
 
-    setIsLoadingRecipe(false);
-  };
+    (async () => {
+      setView(false);
+      setRecipeView(true);
+      setIsLoadingRecipe(true);
+      setIsErrorRecipe(false);
+      try {
+        setRecipeView(true);
+        let res = await Axios(recipeUrl);
+        setRecipe(res.data);
+      } catch (e) {
+        setIsErrorRecipe(true);
+      }
+
+      setIsLoadingRecipe(false);
+    })();
+  }, [recipeUrl]);
 
   const CustomRadio = forwardRef((props, ref) => {
     const { isChecked, isDisabled, value, ...rest } = props;
@@ -363,9 +376,8 @@ function Home() {
                             </div>
                             <Flex align='flex-start'>
                               <Button
-                                value={items.id}
+                                value={items.sourceUrl}
                                 isLoading={isLoadingRecipe}
-                                // loadingText='Loading'
                                 bg='white'
                                 size='md'
                                 height='48px'
@@ -374,23 +386,11 @@ function Home() {
                                 variantColor='green'
                                 variant='outline'
                                 onClick={(e) => {
-                                  setRecipeView(false);
-                                  let a = dailyArr[0];
-                                  setDailyDataArr(dailyArr[0]);
-                                  let pos = a.id.findIndex(
-                                    (i) => i === items.id
-                                  );
-
-                                  if (pos >= 0) {
-                                    setIsLoadingRecipe(true);
-                                  }
-                                  setChoosen(pos);
-                                  let newUrl = dailyArr[0].url[pos];
+                                  let newUrl = e.target.value;
+                                  console.log(newUrl);
                                   setRecipeUrl(
                                     `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${newUrl}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
                                   );
-                                  setRecipeView(false);
-                                  //  fetchRecipe();
                                 }}
                               >
                                 Get Recipe
@@ -409,25 +409,78 @@ function Home() {
         </div>
         {!isErrorRecipe && recipeView && (
           <>
-            <div>
-              <div>
-                <div>Food Image</div>
-                <div>
-                  <Flex align='center' justify='center'>
-                    {/* <p>{recipe.preparationMinutes}</p> */}
-                    {/* <p>{recipe.cookingMinutes}</p>
-                    <p>{recipe.pricePerServing}</p>
-                    <p>{recipe.healthscore}</p>
-                    <p>{recipe.servings}</p>
-                    <p>{recipe.diets.join(',')}</p> */}
-                  </Flex>
+            <div className='recipe-div'>
+              <div id='recipe-title'>{recipe.title}</div>
+              <div className='recipe-meal-div'>
+                <img
+                  className='recipe-meal-img'
+                  src={recipe.image}
+                  alt='recipe meal'
+                />
+                <div className='other-meal-info recipe-meal-info'>
+                  <FontAwesomeIcon icon={faClock} className='other-meal-icon' />
+                  <p className='ready-para'>{recipe.readyInMinutes} mins</p>
+                  <FontAwesomeIcon
+                    icon={faUtensils}
+                    className='other-meal-icon utensils'
+                  />
+                  <p> {recipe.servings} servings</p>
                 </div>
+
+                <div
+                  className='recipe-summary'
+                  dangerouslySetInnerHTML={{ __html: recipe.summary }}
+                ></div>
+              </div>
+              <h3>Ingredients</h3>
+              <div className='recipe-ing'>
+                {recipe.extendedIngredients === undefined ? (
+                  ''
+                ) : (
+                  <SimpleGrid
+                    minChildWidth='7rem'
+                    columns={5}
+                    spacingX='40px'
+                    spacingY='20px'
+                  >
+                    {recipe.extendedIngredients.map((item) => (
+                      <div>
+                        <img
+                          className='recipe-ingredients-img'
+                          src={`${process.env.REACT_APP_PARTNER_URL_RECIPE_IMAGE}/${item.image}`}
+                          alt=''
+                        />
+                        <p>{item.name}</p>
+                      </div>
+                    ))}
+                  </SimpleGrid>
+                )}
               </div>
               <div>
-                Ingredients
-                {}
+                {/* <h2>Instructions</h2> */}
+                {recipe.analyzedInstructions === undefined
+                  ? ''
+                  : console.log(
+                      'instructions >>>>',
+                      recipe.analyzedInstructions
+                    )}
+                {/* {recipe.analyzedInstructions === undefined ? (
+                  ''
+                ) : (
+                  <>
+                    {recipe.analyzedInstructions.steps.map((item) => (
+                      <div>
+                        <ul>
+                          <li>
+                            Step {item.number}
+                            <p>{item.step}</p>
+                          </li>
+                        </ul>
+                      </div>
+                    ))}
+                  </>
+                )} */}
               </div>
-              <div>Instructions</div>
             </div>
           </>
         )}
