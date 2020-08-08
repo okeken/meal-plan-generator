@@ -455,10 +455,16 @@ img {
   margin: auto;
   padding: 0.5rem 2rem;
 }
+
+.bottom-back-result {
+  margin-bottom: 3rem;
+}
 .back-hr {
   opacity: 0.5;
   color: white;
 }
 .back-btn {
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 1rem;
+  font-size: 1.1rem;
+  color: #333;
 }

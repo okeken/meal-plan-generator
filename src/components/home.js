@@ -524,7 +524,7 @@ function Home() {
           </>
         )}
         {count >= 1 && recipeView && (
-          <div className='back-result'>
+          <div className='back-result bottom-back-result'>
             <hr className='back-hr' />
             <button
               className='back-btn'
