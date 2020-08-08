@@ -421,10 +421,44 @@ img {
 
 .recipe-meal-info {
   max-width: 15rem;
+  padding: 0.7rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: auto;
   margin-bottom: -0.8rem;
   transform: translateY(-0.8rem);
+  border-radius: 20px;
+}
+
+.recipe-steps {
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+.step-number {
+  border: 2px solid white;
+  display: inline-block;
+  height: 1.7rem;
+  width: 1.7rem;
+  border-radius: 50px;
+}
+.equipment-img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.back-result {
+  justify-content: center;
+  flex-direction: column;
+  max-width: 45rem;
+
+  margin: auto;
+}
+.back-hr {
+  opacity: 0.5;
+  color: white;
+}
+.back-btn {
+  padding: 0.2rem 0.5rem;
 }

@@ -261,6 +261,20 @@ function Home() {
             </div>
           </form>
         </div>
+        {count >= 1 && recipeView && (
+          <div className='back-result'>
+            <hr className='back-hr' />
+            <button
+              className='back-btn'
+              onClick={() => {
+                setRecipeView(!recipeView);
+                setView(!view);
+              }}
+            >
+              <span>Back</span>
+            </button>
+          </div>
+        )}
         <div className='div-results' id='results-id'>
           {!isError && view && (
             <>
@@ -339,64 +353,68 @@ function Home() {
                     <div className='meal-div-mapping'>
                       {dataImg.map((items) => (
                         <>
-                          <div className='meal-card-div'>
-                            <div className='img-div'>
-                              <p className='meal-tit'>
-                                {items.title.length <= 18
-                                  ? items.title
-                                  : items.title
-                                      .replace(/[{()}]/g, '')
-                                      .slice(0, 18) + '...'}
-                              </p>
+                          {items.url && (
+                            <>
+                              <div className='meal-card-div'>
+                                <div className='img-div'>
+                                  <p className='meal-tit'>
+                                    {items.title.length <= 18
+                                      ? items.title
+                                      : items.title
+                                          .replace(/[{()}]/g, '')
+                                          .slice(0, 18) + '...'}
+                                  </p>
 
-                              <img
-                                className='meal-box-img'
-                                src={items.url}
-                                alt='meals'
-                              />
+                                  <img
+                                    className='meal-box-img'
+                                    src={items.url}
+                                    alt='meals'
+                                  />
 
-                              <div className='div-flex'>
-                                <div>
-                                  <div className='other-meal-info'>
-                                    <FontAwesomeIcon
-                                      icon={faClock}
-                                      className='other-meal-icon'
-                                    />
-                                    <p className='ready-para'>
-                                      {items.readyInMinutes} mins
-                                    </p>
-                                    <FontAwesomeIcon
-                                      icon={faUtensils}
-                                      className='other-meal-icon utensils'
-                                    />
-                                    <p> {items.servings} servings</p>
+                                  <div className='div-flex'>
+                                    <div>
+                                      <div className='other-meal-info'>
+                                        <FontAwesomeIcon
+                                          icon={faClock}
+                                          className='other-meal-icon'
+                                        />
+                                        <p className='ready-para'>
+                                          {items.readyInMinutes} mins
+                                        </p>
+                                        <FontAwesomeIcon
+                                          icon={faUtensils}
+                                          className='other-meal-icon utensils'
+                                        />
+                                        <p> {items.servings} servings</p>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
+                                <Flex align='flex-start'>
+                                  <Button
+                                    value={items.sourceUrl}
+                                    isLoading={isLoadingRecipe}
+                                    bg='white'
+                                    size='md'
+                                    height='48px'
+                                    width='200px'
+                                    className='get-recipe-btn'
+                                    variantColor='green'
+                                    variant='outline'
+                                    onClick={(e) => {
+                                      let newUrl = e.target.value;
+
+                                      setRecipeUrl(
+                                        `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${newUrl}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
+                                      );
+                                    }}
+                                  >
+                                    Get Recipe
+                                  </Button>
+                                </Flex>
                               </div>
-                            </div>
-                            <Flex align='flex-start'>
-                              <Button
-                                value={items.sourceUrl}
-                                isLoading={isLoadingRecipe}
-                                bg='white'
-                                size='md'
-                                height='48px'
-                                width='200px'
-                                className='get-recipe-btn'
-                                variantColor='green'
-                                variant='outline'
-                                onClick={(e) => {
-                                  let newUrl = e.target.value;
-                                  console.log(newUrl);
-                                  setRecipeUrl(
-                                    `${process.env.REACT_APP_PARTNER_URL_RECIPE}?url=${newUrl}&apiKey=${process.env.REACT_APP_FOOD_KEY}`
-                                  );
-                                }}
-                              >
-                                Get Recipe
-                              </Button>
-                            </Flex>
-                          </div>
+                            </>
+                          )}
                         </>
                       ))}
                     </div>
@@ -456,33 +474,68 @@ function Home() {
                   </SimpleGrid>
                 )}
               </div>
+
               <div>
-                {/* <h2>Instructions</h2> */}
-                {/* {recipe.analyzedInstructions === undefined
-                  ? ''
-                  : console.log(
-                      'instructions >>>>',
-                      recipe.analyzedInstructions
-                    )} */}
-                {/* {recipe.analyzedInstructions === undefined ? (
-                  ''
-                ) : (
+                <h2> Equipments</h2>
+                {recipe.analyzedInstructions && (
                   <>
-                    {recipe.analyzedInstructions.steps.map((item) => (
-                      <div>
-                        <ul>
-                          <li>
-                            Step {item.number}
-                            <p>{item.step}</p>
-                          </li>
-                        </ul>
-                      </div>
-                    ))}
+                    <SimpleGrid
+                      minChildWidth='7rem'
+                      columns={5}
+                      spacingX='40px'
+                      spacingY='20px'
+                    >
+                      {recipe.analyzedInstructions[0].steps.map((i) => (
+                        <>
+                          {i.equipment.map((eq) => (
+                            <div>
+                              <img
+                                className='equipment-img'
+                                src={`${process.env.REACT_APP_PARTNER_URL_RECIPE_IMAGE_EQUIPMENT}/${eq.image}`}
+                                alt=''
+                              />
+                              <p>{eq.name}</p>
+                            </div>
+                          ))}
+                        </>
+                      ))}
+                    </SimpleGrid>
                   </>
-                )} */}
+                )}
+                <h2>Instructions </h2>
+
+                <div>
+                  <div className='recipe-steps'>
+                    {recipe.analyzedInstructions && (
+                      <>
+                        {recipe.analyzedInstructions[0].steps.map((items) => (
+                          <>
+                            <h4 className='step-number'>{items.number}</h4>
+
+                            <p>{items.step}</p>
+                          </>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </>
+        )}
+        {count >= 1 && recipeView && (
+          <div className='back-result'>
+            <hr className='back-hr' />
+            <button
+              className='back-btn'
+              onClick={() => {
+                setRecipeView(!recipeView);
+                setView(!view);
+              }}
+            >
+              <span>Back</span>
+            </button>
+          </div>
         )}
         {isErrorRecipe && <>Error Fetching Recipe</>}
       </ThemeProvider>
