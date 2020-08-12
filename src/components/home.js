@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, forwardRef, useEffect } from 'react';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import {
   SimpleGrid,
   Grid,
@@ -261,7 +262,7 @@ function Home() {
             </div>
           </form>
         </div>
-        {count >= 1 && recipeView && (
+        {count >= 1 && !isErrorRecipe && recipeView && (
           <div className='back-result'>
             <hr className='back-hr' />
             <button
@@ -425,7 +426,27 @@ function Home() {
           )}
           {isError && <>An error Occured!</>}
         </div>
-        {!isErrorRecipe && recipeView && (
+        {isLoadingRecipe && (
+          <>
+            <div className='recipe-loading-stat'>
+              <SkeletonTheme
+                color='rgba(182, 180, 180, 0.219)'
+                highlightColor='rgba(245, 245, 245, 0.3)'
+              >
+                <h1 className='loading-title'>
+                  {' '}
+                  <Skeleton />
+                </h1>
+                <Skeleton className='image-loading-recipe' />
+                <Skeleton className='recipe-cooking' />
+                <p>
+                  <Skeleton count={3} height={30} className='loading-desc' />
+                </p>
+              </SkeletonTheme>
+            </div>
+          </>
+        )}
+        {!isErrorRecipe && recipeView && !isLoadingRecipe && (
           <>
             <div className='recipe-div'>
               <div id='recipe-title'>{recipe.title}</div>
@@ -444,7 +465,6 @@ function Home() {
                   />
                   <p> {recipe.servings} servings</p>
                 </div>
-
                 <div
                   className='recipe-summary'
                   dangerouslySetInnerHTML={{ __html: recipe.summary }}
@@ -523,7 +543,7 @@ function Home() {
             </div>
           </>
         )}
-        {count >= 1 && recipeView && (
+        {count >= 1 && !isErrorRecipe && recipeView && (
           <div className='back-result bottom-back-result'>
             <hr className='back-hr' />
             <button
