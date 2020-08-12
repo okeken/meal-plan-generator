@@ -174,8 +174,8 @@ function Home() {
             </p>
 
             <p>
-              Get personalized meal plans based your calories requirement, plan
-              duration, and your diet type all in one place.
+              Get personalized meal plans based on your calories requirement,
+              plan duration, and your diet type all in one place.
             </p>
           </div>
           <form
